@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using RimSynapse;
 
-namespace RimSynapse.LocalTts
+namespace LocalTts
 {
     /// <summary>
     /// Loads Kokoro voice style vectors. Each voice ships as a raw float32 <c>.bin</c> of shape
@@ -65,10 +64,15 @@ namespace RimSynapse.LocalTts
             {
                 if (_cache.TryGetValue(voiceId, out var cached)) return cached;
 
+                // Resolve bundled ids first; if the string isn't a known bundled voice, treat it as
+                // a direct path to a caller-supplied .bin style vector (their own designed voice, a
+                // Voicebox-style export, or an #11 RNG voice). This is what lets a broker caller pass
+                // "af_heart" or "C:\path\myvoice.bin" through the same voice parameter.
                 string path = TtsAssets.VoiceFile(voiceId);
+                if (!File.Exists(path)) path = voiceId;
                 if (!File.Exists(path))
                 {
-                    SynapseLogger.Warning($"[LocalTTS] Voice file not found: {path}");
+                    TtsLog.Warning($"[LocalTTS] Voice not found (neither a bundled id nor a file): {voiceId}");
                     _cache[voiceId] = null;
                     return null;
                 }
@@ -79,7 +83,7 @@ namespace RimSynapse.LocalTts
                     int expected = Rows * Dim * sizeof(float);
                     if (bytes.Length < expected)
                     {
-                        SynapseLogger.Error($"[LocalTTS] Voice '{voiceId}' is {bytes.Length} bytes, expected at least {expected}.");
+                        TtsLog.Error($"[LocalTTS] Voice '{voiceId}' is {bytes.Length} bytes, expected at least {expected}.");
                         _cache[voiceId] = null;
                         return null;
                     }
@@ -91,7 +95,7 @@ namespace RimSynapse.LocalTts
                 }
                 catch (Exception ex)
                 {
-                    SynapseLogger.Error($"[LocalTTS] Failed to load voice '{voiceId}': {ex.Message}");
+                    TtsLog.Error($"[LocalTTS] Failed to load voice '{voiceId}': {ex.Message}");
                     _cache[voiceId] = null;
                     return null;
                 }

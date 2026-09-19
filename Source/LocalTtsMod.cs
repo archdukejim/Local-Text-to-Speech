@@ -1,13 +1,13 @@
 using System.Collections.Generic;
-using RimSynapse.Utils;
 using UnityEngine;
 using Verse;
 
-namespace RimSynapse.LocalTts
+namespace LocalTts
 {
     /// <summary>
-    /// Mod entry point for RimSynapse Local Text-to-Speech. Wires up asset paths, registers with
-    /// Core, and owns the async Kokoro engine.
+    /// Mod entry point for Local TTS. Stands up the main-thread pump and audio player, wires up
+    /// asset paths, and owns the async Kokoro engine. Standalone — no RimSynapse Core dependency;
+    /// Core integration (GPU stats) is optional and bound by reflection.
     /// </summary>
     public class LocalTtsMod : Mod
     {
@@ -21,11 +21,22 @@ namespace RimSynapse.LocalTts
             Instance = this;
             Settings = GetSettings<LocalTtsSettings>();
 
+            // Stand up the main-thread pump before anything logs or synthesizes off-thread. This
+            // runs in menu and in-game without a Game instance or a Harmony patch, and lets the
+            // worker thread marshal logging/playback/broker callbacks back onto the main thread.
+            MainThreadDispatcher.CaptureMainThread();
+            var pumpGo = new GameObject("LocalTTS.MainThreadPump");
+            Object.DontDestroyOnLoad(pumpGo);
+            pumpGo.AddComponent<MainThreadPump>();
+            TtsAudioPlayer.Init(pumpGo);
+
+            // Capture a writable root for the broker's WAV cache while we're on the main thread
+            // (Application.persistentDataPath is a per-user, writable location — the mod folder may
+            // be read-only under Steam).
+            LocalTtsBroker.CacheRoot = Application.persistentDataPath;
+
             // Resolve where the bundled model + native libraries live.
             TtsAssets.Init(content.RootDir);
-
-            // Register with Core (no system prompt — this mod makes no LLM calls).
-            SynapseCore.Register("rimsynapse.localtts", "RimSynapse Local TTS");
 
             // Spin up the async engine and warm it in the background so the first line is fast.
             Engine = new KokoroTtsEngine();
@@ -33,11 +44,11 @@ namespace RimSynapse.LocalTts
             if (Settings.enabled && TtsAssets.ModelInstalled)
                 Engine.Warmup();
 
-            SynapseLogger.Message("[LocalTTS] RimSynapse Local Text-to-Speech loaded. " +
+            TtsLog.Message("[LocalTTS] Local TTS loaded. " +
                                   (TtsAssets.ModelInstalled ? "Model present." : "Model NOT installed — run download-assets.ps1."));
         }
 
-        public override string SettingsCategory() => "RimSynapse Local TTS";
+        public override string SettingsCategory() => "Local TTS";
 
         public override void DoSettingsWindowContents(Rect inRect)
         {
@@ -103,7 +114,7 @@ namespace RimSynapse.LocalTts
                     Engine?.Speak(Settings.testPhrase);
             }
             if (Widgets.ButtonText(row.RightHalf().ContractedBy(2f), "■  Stop"))
-                AudioPlaybackManager.StopPlayback();
+                TtsAudioPlayer.Stop();
 
             // ── Status (compact) ──
             listing.Gap(6f);
