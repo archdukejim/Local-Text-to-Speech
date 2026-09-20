@@ -6,8 +6,9 @@ mod required, and any mod can request speech through the async broker API.
 
 ## Table of Contents
 
-- [Getting Started](Getting_Started) — requirements, installation, and the mod settings explained
+- [Getting Started](Getting_Started) — requirements, installation, the mod settings, and the bundled voices
 - [Voice Pipeline](Voice_Pipeline) — how text becomes speech: espeak-ng, Kokoro, style vectors, staging, and playback
+- [Developer's Guide](Developer_Guide) — the broker API: request speech from any mod, no assembly reference required
 
 ## RimSynapse
 

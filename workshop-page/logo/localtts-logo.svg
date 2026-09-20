@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1a2327"/>
+      <stop offset="1" stop-color="#0c0f11"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.34" r="0.46">
+      <stop offset="0" stop-color="#22a5a0" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#22a5a0" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <rect width="512" height="512" fill="url(#glow)"/>
+
+  <!-- accent edge bars -->
+  <rect x="0" y="0" width="512" height="6" fill="#22a5a0"/>
+  <rect x="0" y="506" width="512" height="6" fill="#22a5a0"/>
+
+  <g fill="none" stroke="#2fb9b0" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+    <!-- BIG location pin (= "here" / Local) -->
+    <path d="M190 342 C 156 298 128 274 128 206 A 62 62 0 1 1 252 206 C 252 274 224 298 190 342 Z"/>
+    <!-- small speech bubble off to the side, angled tail toward the pin -->
+    <path d="M270 66 h98 a16 16 0 0 1 16 16 v48 a16 16 0 0 1 -16 16 h-78 l-30 30 l20 -30 h-10
+             a16 16 0 0 1 -16 -16 v-48 a16 16 0 0 1 16 -16 Z" stroke-width="9"/>
+  </g>
+
+  <!-- pin center dot (marker) -->
+  <circle cx="190" cy="206" r="10" fill="#2fb9b0"/>
+
+  <!-- voice-modulation waveform inside the bubble (symmetric bars, varied heights) -->
+  <g stroke="#2fb9b0" stroke-width="5" stroke-linecap="round">
+    <line x1="278" y1="97"  x2="278" y2="115"/>
+    <line x1="290" y1="89"  x2="290" y2="123"/>
+    <line x1="302" y1="100" x2="302" y2="112"/>
+    <line x1="314" y1="82"  x2="314" y2="130"/>
+    <line x1="326" y1="95"  x2="326" y2="117"/>
+    <line x1="338" y1="86"  x2="338" y2="126"/>
+    <line x1="350" y1="99"  x2="350" y2="113"/>
+    <line x1="362" y1="92"  x2="362" y2="120"/>
+  </g>
+
+  <!-- wordmark -->
+  <text x="256" y="394" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif"
+        font-size="66" font-weight="700" fill="#f2f5f5" letter-spacing="1">Local TTS</text>
+  <text x="256" y="431" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif"
+        font-size="19" font-weight="600" fill="#3fbdb4" letter-spacing="4">VOICES FOR YOUR RIMWORLD</text>
+
+  <!-- version, bottom-right corner -->
+  <text x="486" y="496" text-anchor="end" font-family="Consolas, Menlo, monospace"
+        font-size="20" font-weight="600" fill="#6f8f8c">v1.0.0</text>
+</svg>

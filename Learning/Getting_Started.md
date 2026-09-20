@@ -27,7 +27,24 @@ Open **Options → Mod options → RimSynapse - Local Text-to-Speech**:
 | **Blend with / amount** | Mix a second voice into the first for a custom timbre — Kokoro's style vectors interpolate cleanly. |
 | **Speed** | Playback rate of synthesis (not a pitch shift — Kokoro re-times naturally). |
 | **Volume** | Output gain applied at playback. |
+| **Cache size cap** | Maximum disk the synthesized-audio cache may use (MB). Oldest lines are evicted first (LRU) once the cap is reached. Default 250 MB. |
 | **Test line** | An open text box with Speak/Stop buttons — audition any sentence with the current settings. |
+
+## The bundled voices
+
+Local TTS ships **29 English voices**. Kokoro's naming is `<language><gender>_<name>` — the first
+letter is the accent, the second is the gender:
+
+| Family | Accent & gender | Count | Examples |
+|---|---|---|---|
+| `af_*` | US English, female | 12 | `af_heart` (default), `af_bella`, `af_nicole`, `af_sky` |
+| `am_*` | US English, male | 9 | `am_michael`, `am_adam`, `am_puck` |
+| `bf_*` | British English, female | 4 | `bf_emma`, `bf_alice`, `bf_lily` |
+| `bm_*` | British English, male | 4 | `bm_george`, `bm_daniel`, `bm_fable` |
+
+Pick one as your **Voice**, and optionally **Blend** a second into it for a timbre that sits between
+them. Each voice carries its own accent for pronunciation (US voices phonemize as `en-us`, British
+as `en-gb`), so the accent is consistent from spelling through to sound.
 
 ## Verifying it works
 
