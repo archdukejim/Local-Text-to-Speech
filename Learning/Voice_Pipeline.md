@@ -61,6 +61,8 @@ Local TTS is a speech *service*: you ask for a line, it hands you a file.
 3. Play it however you like — or hand it back to Local TTS's built-in player.
 
 Because readiness is an explicit notification, "wait for the voice before the event fires" is
-trivial to build on top. The concrete API surface ships with v1.0.0 and is documented in the
-repository README, together with build-from-source instructions (the model and native libraries
-are fetched by `download-assets.ps1`, not stored in git).
+trivial to build on top. The full API surface — every method, the voice/blend/speed/volume
+parameters, the reflection pattern for consuming it without an assembly reference, and the cache
+and threading guarantees — is in the [Developer's Guide](Developer_Guide). Build-from-source notes
+live there and in the repository README (the model and native libraries are fetched by
+`download-assets.ps1`, not stored in git).
