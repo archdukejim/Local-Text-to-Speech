@@ -35,4 +35,4 @@ Fully local: no text or audio ever leaves your machine.
 ---
 
 [h2]Support the Project[/h2]
-Buy me a coffee: [url=https://buymeacoffee.com/archdukejim]https://buymeacoffee.com/archdukejim[/url]
+If you enjoy Local TTS, you can support development here: [url=https://ko-fi.com/archdukejim]https://ko-fi.com/archdukejim[/url]
