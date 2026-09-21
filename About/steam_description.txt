@@ -7,6 +7,8 @@
 
 Powered by the Kokoro-82M model running through ONNX Runtime. No API keys, no cloud calls, no network required once the model is installed — all synthesis happens on your own machine. Standalone: no other mod required.
 
+[img]https://i.imgur.com/gm3yw34.png[/img]
+
 ---
 
 [h2]Key Features[/h2]
